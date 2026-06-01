@@ -1,0 +1,48 @@
+{
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "connect-pg-simple": "^10.0.0",
+    "ejs": "^5.0.2",
+    "express": "^5.2.1",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.19.0",
+    "express-validator": "^7.3.2",
+    "js-convert-case": "^4.2.0",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.20.0"
+  },
+  "name": "odin-express-template",
+  "version": "1.0.1",
+  "description": "",
+  "main": "app.ts",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/connect-pg-simple": "^7.0.3",
+    "@types/ejs": "^3.1.5",
+    "@types/express": "^5.0.6",
+    "@types/express-flash": "^0.0.5",
+    "@types/express-session": "^1.19.0",
+    "@types/node": "^25.6.0",
+    "@types/passport": "^1.0.17",
+    "@types/passport-local": "^1.0.38",
+    "@types/pg": "^8.20.0",
+    "dotenv-cli": "^11.0.0",
+    "eslint": "^10.4.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.4"
+  },
+  "scripts": {
+    "build": "rm -rf dist/ && npm install && tsc && cp -r src/views dist/",
+    "start": "node dist/app.js",
+    "populate:dev": "dotenv -e .env -e .env.dev tsx src/db/populate.ts",
+    "populate:prod": "dotenv -e .env -e .env.prod tsx src/db/populate.ts",
+    "dev": "dotenv -e .env -e .env.dev -- tsx --watch src/app.ts",
+    "dev:prod": "dotenv -e .env -e .env.prod -- tsx --watch src/app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
