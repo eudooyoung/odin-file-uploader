@@ -15,6 +15,7 @@ datasource db {
 model User {
   id        Int      @id @default(autoincrement())
   username  String   @unique
+  password  String
   files     File[]
   createdAt DateTime @default(now())
 }
@@ -25,4 +26,11 @@ model File {
   createdAt  DateTime @default(now())
   uploader   User?    @relation(fields: [uploaderId], references: [id])
   uploaderId Int
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
 }
