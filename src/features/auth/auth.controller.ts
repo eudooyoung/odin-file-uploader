@@ -19,7 +19,7 @@ const signupPostHandler: RequestHandler = (req, res) => {
     }
     const { username, password }: CreateUserInput = matchedData(req);
     await createUser({ username, password });
-    res.redirect("/dashboard");
+    res.redirect("/auth/login");
   })();
 };
 
@@ -27,4 +27,13 @@ export const signupPost = [...validateUser, signupPostHandler];
 
 export const loginGet: RequestHandler = (req, res) => {
   res.render("index");
+};
+
+export const logoutGet: RequestHandler = (req, res, next) => {
+  req.logOut((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
 };

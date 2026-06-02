@@ -4,7 +4,7 @@ const commonLink = [{ href: "/home", text: "홈" }];
 
 const publicLink = [
   { href: "/auth/signup", text: "회원가입" },
-  { href: "/auth/loging", text: "로그인" },
+  { href: "/auth/login", text: "로그인" },
 ];
 
 const authLink = [
