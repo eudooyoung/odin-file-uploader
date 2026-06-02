@@ -14,3 +14,11 @@ export const findAuthUserById = async (id: number) => {
   });
   return user;
 };
+
+export const existUserByUsername = async (username: string) => {
+  const user = await prisma.user.findUnique({
+    where: { username: username },
+    select: { username: true },
+  });
+  return user !== null;
+};
