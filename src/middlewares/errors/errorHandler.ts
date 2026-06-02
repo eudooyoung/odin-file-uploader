@@ -1,0 +1,20 @@
+import config from "@/config/env.config.js";
+import type { ErrorRequestHandler } from "express";
+import getErrorMessage from "./getErrorMessage.js";
+
+const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
+  if (res.headersSent || config.debug) {
+    next(error);
+    return;
+  }
+
+  res.status(500).json({
+    error: {
+      message:
+        getErrorMessage(error) ||
+        "An error occurred. Please view logs for more details",
+    },
+  });
+};
+
+export default errorHandler;
