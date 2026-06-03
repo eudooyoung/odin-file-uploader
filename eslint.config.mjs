@@ -5,6 +5,7 @@ import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
+  { ignores: ["generated/**"] },
   js.configs.recommended,
   tseslint.configs.recommendedTypeChecked,
   {
