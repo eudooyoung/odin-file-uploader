@@ -13,8 +13,8 @@ import {
   usernameMaxLengthErr,
   usernameMinLengthErr,
 } from "./errorMessages.js";
-import { existUserByUsername } from "@/features/user/user.repository.js";
-import type { SignupBody } from "@/features/auth/auth.types.js";
+import { existUserByUsername } from "@/repositories/user.repository.js";
+import type { SignupBody } from "@/types/auth.types.js";
 
 export const validateUser = [
   body("username")

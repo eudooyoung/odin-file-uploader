@@ -4,9 +4,9 @@ import path from "node:path";
 import session from "./config/session.config.js";
 import requestBodyCaseConverter from "./middlewares/requestBodyCaseConverter.js";
 import errorHandler from "./errors/errorHandler.js";
-import pageRouter from "./features/page/page.route.js";
+import pageRouter from "./routes/route.js";
 import linkProvider from "./middlewares/linkProvider.js";
-import authRouter from "./features/auth/auth.route.js";
+import authRouter from "./routes/auth.route.js";
 import passport from "@/config/passport.config.js";
 import authProvider from "./middlewares/authProvider.js";
 

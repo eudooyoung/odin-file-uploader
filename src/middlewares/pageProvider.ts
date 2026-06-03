@@ -1,4 +1,4 @@
-import type { Page } from "@/features/page/page.types.js";
+import type { Page } from "@/types/page.types.js";
 import type { RequestHandler } from "express";
 
 const pageProvider =

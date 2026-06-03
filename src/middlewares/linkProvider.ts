@@ -7,7 +7,10 @@ const publicLink = [
   { href: "/auth/login", text: "로그인" },
 ];
 
-const authLink = [{ href: "/dashboard", text: "대시보드" }];
+const authLink = [
+  { href: "/dashboard", text: "대시보드" },
+  { href: "/storage", text: "파일 저장소" },
+];
 
 const linkProvider: RequestHandler = (req, res, next) => {
   if (req.isAuthenticated()) {
