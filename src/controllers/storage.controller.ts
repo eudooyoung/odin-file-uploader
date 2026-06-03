@@ -7,6 +7,7 @@ import { validateNewFolder } from "@/validates/validateFolder.js";
 import { matchedData, validationResult } from "express-validator";
 import type { RequestHandler } from "express";
 import RecordNotFoundError from "@/errors/RecordNorFoundError.js";
+import { upload } from "@/config/multer.config.js";
 
 export const storageGet: RequestHandler = (req, res) => {
   res.render("index");
@@ -29,6 +30,7 @@ export const createFolderPost = [...validateNewFolder, createFolderPostHandler];
 
 export const folderGet: RequestHandler = async (req, res) => {
   const { folderId } = req.params;
+
   const folder = await findFolderByIdAndUserId(Number(folderId), req.user!.id);
   if (!folder) {
     throw new RecordNotFoundError({
@@ -42,4 +44,9 @@ export const folderGet: RequestHandler = async (req, res) => {
   });
 };
 
-export const uploadFilesPost: RequestHandler = (req, res, next) => {};
+const uploadFilesPostHandler: RequestHandler = (req, res) => {
+  console.log(req.files);
+  res.redirect(`/storage/folder/${Number(req.params.folderId)}`);
+};
+
+export const uploadFilesPost = [upload.array("files"), uploadFilesPostHandler];

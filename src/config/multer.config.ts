@@ -1,5 +1,14 @@
 import multer from "multer";
+import { existsSync, mkdirSync } from "node:fs";
 
-const upload = multer({ dest: "uploads/" });
+const storage = multer.diskStorage({
+  destination(req, file, callback) {
+    const dir = `uploads/${req.user!.id}/${Number(req.params.folderId)}`;
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true });
+    }
+    callback(null, dir);
+  },
+});
 
-export default upload;
+export const upload = multer({ storage });
