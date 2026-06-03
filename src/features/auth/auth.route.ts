@@ -30,6 +30,6 @@ authRouter
     }) as RequestHandler,
   );
 
-authRouter.get("/logout", logoutGet);
+authRouter.post("/logout", logoutGet);
 
 export default authRouter;

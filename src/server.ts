@@ -8,6 +8,7 @@ import pageRouter from "./features/page/page.route.js";
 import linkProvider from "./middlewares/linkProvider.js";
 import authRouter from "./features/auth/auth.route.js";
 import passport from "@/config/passport.config.js";
+import authProvider from "./middlewares/authProvider.js";
 
 export const createServer = () => {
   const app = express();
@@ -21,7 +22,8 @@ export const createServer = () => {
     .use(session)
     .use(passport.session())
     .use(requestBodyCaseConverter)
-    .use(linkProvider);
+    .use(linkProvider)
+    .use(authProvider);
 
   app.use("/", pageRouter);
   app.use("/auth", authRouter);
