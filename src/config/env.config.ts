@@ -10,7 +10,9 @@ dotenv.config({
 
 const config = {
   port: Number(process.env.PORT),
-  databaseUrl: process.env.DATABASE_URL!,
+  sessionSecret: process.env.SESSION_SECRET,
+  databaseUrl: process.env.DATABASE_URL,
+  debug: process.env.APP_DEBUG || "true",
 };
 
 export default config;

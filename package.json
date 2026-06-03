@@ -32,7 +32,7 @@
     "@types/passport": "^1.0.17",
     "@types/passport-local": "^1.0.38",
     "@types/pg": "^8.20.0",
-    "dotenv-cli": "^11.0.0",
+    "ejs-lint": "^2.0.1",
     "eslint": "^10.4.0",
     "prisma": "^7.8.0",
     "tsx": "^4.21.0",
@@ -42,10 +42,7 @@
   "scripts": {
     "build": "rm -rf dist/ && npm install && tsc && cp -r src/views dist/",
     "start": "node dist/app.js",
-    "populate:dev": "dotenv -e .env -e .env.dev tsx src/db/populate.ts",
-    "populate:prod": "dotenv -e .env -e .env.prod tsx src/db/populate.ts",
-    "dev": "dotenv -e .env -e .env.dev -- tsx --watch src/app.ts",
-    "dev:prod": "dotenv -e .env -e .env.prod -- tsx --watch src/app.ts"
+    "dev": "NODE_ENV=development tsx --watch src/app.ts"
   },
   "keywords": [],
   "author": "",
