@@ -17,6 +17,7 @@ export const createServer = () => {
   app
     .set("views", path.join(import.meta.dirname, "views"))
     .set("view engine", "ejs")
+    .use(express.static(path.join(import.meta.dirname, "public")))
     .use(express.json())
     .use(express.urlencoded({ extended: true }))
     .use(flash())

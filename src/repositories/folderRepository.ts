@@ -30,3 +30,14 @@ export const createFolderWithUserId = async (
     },
   });
 };
+
+export const findFolderByIdAndUserId = async (
+  folderId: number,
+  userId: number,
+) => {
+  const folder = await prisma.folder.findUnique({
+    where: { id: folderId, userId: userId },
+    include: { files: true },
+  });
+  return folder;
+};

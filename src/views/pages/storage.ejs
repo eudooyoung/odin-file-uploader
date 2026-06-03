@@ -1,23 +1,16 @@
 <main>
   <h2>파일 저장소</h2>
-  <section>
-    <h3>폴더 목록</h3>
-    <ul>
-      <% folders.forEach(folder => { %>
-      <li><a href="#"><%= folder.name %></a></li>
-      <% }) %>
-    </ul>
-    <button type="button" command="show-modal" commandfor="create-folder-form">새 폴더 만들기</button>
-    <dialog id="create-folder-form" <%= locals.errors && "open" %>>
-      <form action="/storage/folder/create" method="post">
-        <label for="folder-name">폴더 이름:</label>
-        <input type="text" name="folder-name" id="folder-name">
-        <button type="submit">폴더 만들기</button>
-        <button type="button" commandfor="create-folder-form" command="close">취소</button>
-        <% if (locals.errors) { %>
-        <%- include("../partials/error") %>
-        <% } %>
-      </form>
-    </dialog>
-  </section>
+  <button type="button" command="show-modal" commandfor="create-folder-form">새 폴더 만들기</button>
+  <dialog id="create-folder-form" <%= locals.errors && "open" %> closedby="any">
+    <form action="/storage/folder/create" method="post">
+      <label for="folder-name">폴더 이름:</label>
+      <input type="text" name="folder-name" id="folder-name">
+      <button type="submit">폴더 만들기</button>
+      <button type="button" commandfor="create-folder-form" command="close">취소</button>
+      <% if (locals.errors) { %>
+      <%- include("../partials/error") %>
+      <% } %>
+    </form>
+  </dialog>
+  <%- include("../partials/folders") %>
 </main>

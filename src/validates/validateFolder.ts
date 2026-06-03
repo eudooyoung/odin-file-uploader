@@ -7,6 +7,7 @@ export const validateNewFolder = [
   body("folderName")
     .trim()
     .notEmpty()
+    .bail()
     .withMessage(`Folder name ${v.emptyErr}`)
     .matches(/^[a-zA-Z가-힣0-9\s]+$/)
     .withMessage(`Folder name ${v.hangulAlphaNumericErr}`)

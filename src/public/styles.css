@@ -1,0 +1,20 @@
+.folder.detail {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "sidebar info";
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 15rem auto;
+}
+
+.folder .header {
+  grid-area: header;
+}
+
+.folder .info {
+  grid-area: info;
+}
+
+.folder aside {
+  grid-area: sidebar;
+}
