@@ -1,0 +1,11 @@
+<dialog id="create-folder" <%= locals.errors && "open" %> closedby="any">
+  <form action="/storage/folder/create" method="post">
+    <label for="folder-name">폴더 이름:</label>
+    <input type="text" name="folder-name" id="folder-name">
+    <button type="submit">폴더 만들기</button>
+    <button type="button" commandfor="create-folder" command="close">취소</button>
+    <% if (locals.errors) { %>
+    <%- include("../partials/error") %>
+    <% } %>
+  </form>
+</dialog>
