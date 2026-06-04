@@ -2,6 +2,7 @@ import {
   createFolderPost,
   folderGet,
   storageGet,
+  updateFolderPost,
   uploadFilesPost,
 } from "@/controllers/storage.controller.js";
 import folderProvider from "@/middlewares/folderProvider.js";
@@ -16,6 +17,11 @@ storageRouter.use(requireAuth, folderProvider);
 storageRouter.get("/", pageProvider("storage"), storageGet);
 storageRouter.post("/folder/create", pageProvider("storage"), createFolderPost);
 storageRouter.get("/folder/:folderId", pageProvider("folder"), folderGet);
+storageRouter.post(
+  "/folder/:folderId/update",
+  pageProvider("folder"),
+  updateFolderPost,
+);
 storageRouter.post(
   "/folder/:folderId/file/upload",
   pageProvider("folder"),

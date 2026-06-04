@@ -7,7 +7,7 @@
   grid-template-columns: 15rem auto;
 }
 
-.folder .header {
+.folder header {
   grid-area: header;
 }
 

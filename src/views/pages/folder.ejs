@@ -1,5 +1,8 @@
 <main class="folder detail">
-  <h2 class="header"><%= folder.name %></h2>
+  <header>
+    <h2><%= folder.name %></h2>
+    <button type="button" command="show-modal" commandfor="update-folder">폴더 이름 변경</button>
+  </header>
   <div class="info">
     <p>폴더 아이디: <%= folder.id %></p>
     <p>생성 날짜: <%= folder.createdAt %></p>
@@ -10,4 +13,5 @@
   </div>
   <%- include("../partials/folders") %>
 </main>
+<%- include("../dialogs/update-folder") %>
 <%- include("../dialogs/upload-files") %>

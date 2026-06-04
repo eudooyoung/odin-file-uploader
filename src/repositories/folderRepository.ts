@@ -3,11 +3,12 @@ import { prisma } from "@/lib/prisma.js";
 export const findFoldersByUserId = async (userId: number) => {
   const folders = await prisma.folder.findMany({
     where: { userId: userId },
+    orderBy: { id: "asc" },
   });
   return folders;
 };
 
-export const existFolderNameByUserId = async (
+export const existsFolderNameByUserId = async (
   folderName: string,
   userId: number,
 ) => {
@@ -35,9 +36,42 @@ export const findFolderByIdAndUserId = async (
   folderId: number,
   userId: number,
 ) => {
-  const folder = await prisma.folder.findUnique({
+  const folder = await prisma.folder.findUniqueOrThrow({
     where: { id: folderId, userId: userId },
     include: { files: true },
   });
   return folder;
+};
+
+export const updateFolderByIdAndUserId = async (
+  folderId: number,
+  folderName: string,
+  userId: number,
+) => {
+  await prisma.folder.update({
+    data: {
+      name: folderName,
+    },
+    where: {
+      id: folderId,
+      userId,
+    },
+  });
+};
+
+export const existsFolderNameByUserIdExcludingId = async (
+  folderName: string,
+  userId: number,
+  folderId: number,
+) => {
+  const folder = await prisma.folder.findFirst({
+    where: {
+      name: folderName,
+      userId,
+      NOT: {
+        id: folderId,
+      },
+    },
+  });
+  return folder !== null;
 };
