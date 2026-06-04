@@ -75,3 +75,15 @@ export const existsFolderNameByUserIdExcludingId = async (
   });
   return folder !== null;
 };
+
+export const deleteFolderByIdAndUserId = async (
+  folderId: number,
+  userId: number,
+) => {
+  await prisma.folder.delete({
+    where: {
+      id: folderId,
+      userId,
+    },
+  });
+};

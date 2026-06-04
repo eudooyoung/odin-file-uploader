@@ -1,5 +1,6 @@
 import {
   createFolderWithUserId,
+  deleteFolderByIdAndUserId,
   findFolderByIdAndUserId,
   updateFolderByIdAndUserId,
 } from "@/repositories/folderRepository.js";
@@ -67,6 +68,11 @@ export const updateFolderPost = [
   ...validateUpdateFolder,
   updateFolderPostHandler,
 ];
+
+export const deleteFolderPost: RequestHandler = async (req, res) => {
+  await deleteFolderByIdAndUserId(Number(req.params.folderId), req.user!.id);
+  res.redirect("/storage");
+};
 
 const uploadFilesPostHandler: RequestHandler = (req, res) => {
   console.log(req.files);

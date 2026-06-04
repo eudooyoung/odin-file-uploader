@@ -18,3 +18,8 @@
 .folder aside {
   grid-area: sidebar;
 }
+
+.button-container {
+  display: flex;
+  column-gap: 1rem;
+}

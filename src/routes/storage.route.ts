@@ -1,5 +1,6 @@
 import {
   createFolderPost,
+  deleteFolderPost,
   folderGet,
   storageGet,
   updateFolderPost,
@@ -16,16 +17,12 @@ storageRouter.use(requireAuth, folderProvider);
 
 storageRouter.get("/", pageProvider("storage"), storageGet);
 storageRouter.post("/folder/create", pageProvider("storage"), createFolderPost);
-storageRouter.get("/folder/:folderId", pageProvider("folder"), folderGet);
-storageRouter.post(
-  "/folder/:folderId/update",
-  pageProvider("folder"),
-  updateFolderPost,
-);
-storageRouter.post(
-  "/folder/:folderId/file/upload",
-  pageProvider("folder"),
-  uploadFilesPost,
-);
+
+storageRouter
+  .use("/folder/:folderId", pageProvider("folder"))
+  .get("/folder/:folderId", folderGet)
+  .post("/folder/:folderId/update", updateFolderPost)
+  .post("/folder/:folderId/delete", deleteFolderPost)
+  .post("/folder/:folderId/file/upload", uploadFilesPost);
 
 export default storageRouter;
