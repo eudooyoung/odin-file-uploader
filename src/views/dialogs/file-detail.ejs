@@ -1,5 +1,8 @@
-<dialog>
-  <h4><%= file.originalName %></h4>
-  <p>크기: <%= file.size %></p>
+<dialog id="file-detail-<%= file.id %>" closedby="any">
+  <h4>이름: <%= file.originalName %></h4>
+  <p>크기: <%= file.size %> bytes</p>
   <p>업로드 날짜: <%= file.createdAt %></p>
+  <form action="/storage/folder/<%= folder.id %>/file/<%= file.id %>/download/?path=<%= file.path %>&name=<%= file.originalName %>" method="post">
+    <button>다운로드</button>
+  </form>
 </dialog>

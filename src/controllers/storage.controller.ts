@@ -94,7 +94,9 @@ const uploadFilesPostHandler: RequestHandler = async (req, res) => {
 
 export const uploadFilesPost = [upload.array("files"), uploadFilesPostHandler];
 
-export const downloadFilePost: RequestHandler = (req, res) => {
+export const downloadFilePost: RequestHandler = (req, res, next) => {
   const { path, name } = req.query as { path: string; name: string };
-  res.download(path, name);
+  res.download(path, name, (err) => {
+    next(err);
+  });
 };
