@@ -30,11 +30,14 @@ model Folder {
 }
 
 model File {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  folder    Folder?  @relation(fields: [folderId], references: [id])
-  folderId  Int
+  id           Int      @id @default(autoincrement())
+  originalName String
+  fileName     String
+  size         Int
+  path         String
+  createdAt    DateTime @default(now())
+  folder       Folder?  @relation(fields: [folderId], references: [id])
+  folderId     Int
 }
 
 model Session {
