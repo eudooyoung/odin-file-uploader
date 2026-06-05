@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma.js";
+import type { FileInput } from "@/types/storage.types.js";
 
 export const findFoldersByUserId = async (userId: number) => {
   const folders = await prisma.folder.findMany({
@@ -85,5 +86,11 @@ export const deleteFolderByIdAndUserId = async (
       id: folderId,
       userId,
     },
+  });
+};
+
+export const createFilesWithFolderId = async (filesInput: FileInput[]) => {
+  await prisma.file.createMany({
+    data: filesInput,
   });
 };

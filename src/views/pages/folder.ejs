@@ -13,7 +13,12 @@
     <p>생성 날짜: <%= folder.createdAt %></p>
     <button type="button" command="show-modal" commandfor="upload-file">파일 추가</button>
     <section>
-      <h3>파일목록</h3>
+      <h3>파일 목록</h3>
+      <ul>
+        <% folder.files.forEach(file => { %>
+        <li><%= file.originalName %></li>
+        <% }) %>
+      </ul>
     </section>
   </div>
   <%- include("../partials/folders") %>

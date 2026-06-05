@@ -5,7 +5,3 @@ export type Page =
   | "dashboard"
   | "storage"
   | "folder";
-
-export type FolderRequestBody = {
-  folderName: string;
-};

@@ -1,10 +1,11 @@
 import {
+  createFilesWithFolderId,
   createFolderWithUserId,
   deleteFolderByIdAndUserId,
   findFolderByIdAndUserId,
   updateFolderByIdAndUserId,
-} from "@/repositories/folderRepository.js";
-import type { FolderRequestBody } from "@/types/types.js";
+} from "@/repositories/folder.repository.js";
+import type { FolderRequestBody } from "@/types/storage.types.js";
 import {
   validateCreateFolder,
   validateUpdateFolder,
@@ -74,9 +75,20 @@ export const deleteFolderPost: RequestHandler = async (req, res) => {
   res.redirect("/storage");
 };
 
-const uploadFilesPostHandler: RequestHandler = (req, res) => {
-  console.log(req.files);
-  res.redirect(`/storage/folder/${Number(req.params.folderId)}`);
+const uploadFilesPostHandler: RequestHandler = async (req, res) => {
+  const folderId = Number(req.params.folderId);
+  const filesRaw = req.files as Express.Multer.File[];
+  const filesInput = filesRaw.map((file) => {
+    return {
+      originalName: file.originalname,
+      fileName: file.filename,
+      path: file.path,
+      size: file.size,
+      folderId,
+    };
+  });
+  await createFilesWithFolderId(filesInput);
+  res.redirect(`/storage/folder/${folderId}`);
 };
 
 export const uploadFilesPost = [upload.array("files"), uploadFilesPostHandler];
