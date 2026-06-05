@@ -25,7 +25,7 @@ model Folder {
   name      String
   createdAt DateTime @default(now())
   user      User?    @relation(fields: [userId], references: [id])
-  userId    Int
+  userId    Int?
   files     File[]
 }
 
@@ -37,7 +37,7 @@ model File {
   path         String
   createdAt    DateTime @default(now())
   folder       Folder?  @relation(fields: [folderId], references: [id])
-  folderId     Int
+  folderId     Int?
 }
 
 model Session {
