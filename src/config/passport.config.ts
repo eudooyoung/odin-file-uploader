@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import {
   findAuthUserById,
   findUserByUsername,
-} from "../repositories/user.repository.js";
+} from "../repositories/auth.repository.js";
 import type { AuthUser } from "../types/auth.types.js";
 
 const LocalStrategy = Strategy;

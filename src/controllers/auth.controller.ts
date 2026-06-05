@@ -2,7 +2,7 @@ import type { RequestHandler } from "express";
 import { matchedData, validationResult } from "express-validator";
 import type { CreateUserInput, SignupBody } from "../types/auth.types.js";
 import { validateUser } from "@/validates/validateUser.js";
-import { createUser } from "../repositories/user.repository.js";
+import { createUser } from "../repositories/auth.repository.js";
 
 export const signupGet: RequestHandler = (req, res) => {
   res.render("index");

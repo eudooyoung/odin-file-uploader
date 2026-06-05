@@ -3,7 +3,7 @@ import v from "./validateErrorMessages.js";
 import {
   existsFolderNameByUserId,
   existsFolderNameByUserIdExcludingId,
-} from "@/repositories/folder.repository.js";
+} from "@/repositories/storage.repository.js";
 import type { AuthUser } from "@/types/auth.types.js";
 
 export const validateCreateFolder = [

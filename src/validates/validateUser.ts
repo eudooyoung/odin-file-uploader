@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 import bcrypt from "bcryptjs";
 import v from "./validateErrorMessages.js";
-import { existUserByUsername } from "@/repositories/user.repository.js";
+import { existUserByUsername } from "@/repositories/auth.repository.js";
 import type { SignupBody } from "@/types/auth.types.js";
 
 export const validateUser = [

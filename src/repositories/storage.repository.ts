@@ -94,3 +94,19 @@ export const createFilesWithFolderId = async (filesInput: FileInput[]) => {
     data: filesInput,
   });
 };
+
+export const deleteFileByIdAndFolderId = async (
+  fileId: number,
+  folderId: number,
+) => {
+  const deleted = await prisma.file.delete({
+    where: {
+      id: fileId,
+      folderId,
+    },
+    select: {
+      path: true,
+    },
+  });
+  return deleted.path;
+};

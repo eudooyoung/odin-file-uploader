@@ -1,4 +1,4 @@
-import { findFoldersByUserId } from "@/repositories/folder.repository.js";
+import { findFoldersByUserId } from "@/repositories/storage.repository.js";
 import type { RequestHandler } from "express";
 
 const folderProvider: RequestHandler = async (req, res, next) => {

@@ -1,5 +1,6 @@
 import {
   createFolderPost,
+  deleteFilePost,
   deleteFolderPost,
   downloadFilePost,
   folderGet,
@@ -25,6 +26,7 @@ storageRouter
   .post("/folder/:folderId/update", updateFolderPost)
   .post("/folder/:folderId/delete", deleteFolderPost)
   .post("/folder/:folderId/file/upload", uploadFilesPost)
-  .post("/folder/:folderId/file/:fileId/download", downloadFilePost);
+  .post("/folder/:folderId/file/:fileId/download", downloadFilePost)
+  .post("/folder/:folderId/file/:fileId/delete", deleteFilePost);
 
 export default storageRouter;
