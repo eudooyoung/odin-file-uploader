@@ -94,3 +94,13 @@ export const createFilesWithFolderId = async (filesInput: FileInput[]) => {
     data: filesInput,
   });
 };
+
+export const findFileByIdAndUserId = async (fileId: number, userId: number) => {
+  const file = await prisma.file.findUnique({
+    where: {
+      id: fileId,
+      userId,
+    },
+  });
+  return file;
+};

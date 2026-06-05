@@ -1,27 +1,38 @@
+:root {
+  --item-box-shadow: 1px 1px 2px 1px #999;
+  --item-border-radius: 0.5rem;
+  --item-background-hovered: #eee;
+}
+
+body {
+  max-width: calc(1980px * 0.5);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
 .folder-preview {
   padding: 1rem;
 
   list-style-type: none;
-  box-shadow: 1px 1px 2px 1px #999;
-  border-radius: 0.5rem;
 
   display: grid;
   row-gap: 1rem;
 }
 
 .folder-preview a {
-  padding: 0.5rem;
-  text-decoration: none;
+  padding: 1rem;
+
   color: inherit;
-  border-radius: 0.5rem;
+  text-decoration: none;
+
+  box-shadow: var(--item-box-shadow);
+  border-radius: var(--item-border-radius);
 
   display: flex;
-  justify-content: space-evenly;
 }
 
 .folder-preview a:hover {
-  background-color: #ccffff;
-  text-decoration: underline;
+  background-color: var(--item-background-hovered);
 }
 
 .folder.detail {
@@ -49,3 +60,26 @@
   display: flex;
   column-gap: 1rem;
 }
+
+.files ul {
+  list-style-type: none;
+  padding: 0;
+
+  display: grid;
+  row-gap: 1rem;
+}
+
+.files li {
+  padding: 1rem;
+  /* box-shadow: var(--item-box-shadow);
+  border-radius: var(--item-border-radius); */
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* column-gap: 1rem; */
+}
+/* 
+.files li:hover {
+  background-color: var(--item-background-hovered);
+} */

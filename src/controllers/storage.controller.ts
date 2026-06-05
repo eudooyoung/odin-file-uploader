@@ -71,7 +71,8 @@ export const updateFolderPost = [
 ];
 
 export const deleteFolderPost: RequestHandler = async (req, res) => {
-  await deleteFolderByIdAndUserId(Number(req.params.folderId), req.user!.id);
+  const folderId = Number(req.params.folderId);
+  await deleteFolderByIdAndUserId(folderId, req.user!.id);
   res.redirect("/storage");
 };
 
@@ -92,3 +93,8 @@ const uploadFilesPostHandler: RequestHandler = async (req, res) => {
 };
 
 export const uploadFilesPost = [upload.array("files"), uploadFilesPostHandler];
+
+export const downloadFilePost: RequestHandler = (req, res) => {
+  const { path, name } = req.query as { path: string; name: string };
+  res.download(path, name);
+};
