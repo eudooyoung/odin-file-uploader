@@ -130,6 +130,16 @@ const uploadFilesPostHandler: RequestHandler = async (req, res) => {
 
 export const uploadFilesPost = [upload.array("files"), uploadFilesPostHandler];
 
+export const downloadFileGet: RequestHandler = (req, res) => {
+  const { key, name } = req.params as { key: string; name: string };
+  const url = cloudinary.url(key, {
+    flags: `attachment:${name}`,
+    resource_type: "raw",
+  });
+
+  res.redirect(url);
+};
+
 export const deleteFilePost: RequestHandler = async (req, res) => {
   const fileId = Number(req.params.fileId);
   const folderId = Number(req.params.folderId);
