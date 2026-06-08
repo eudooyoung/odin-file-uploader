@@ -1,0 +1,8 @@
+  <aside>
+    <h3>폴더 목록</h3>
+    <ul>
+      <% folders.forEach(folder => { %>
+      <li><a href="/storage/folder/<%= folder.id %>"><%= folder.name %></a></li>
+      <% }) %>
+    </ul>
+  </aside>

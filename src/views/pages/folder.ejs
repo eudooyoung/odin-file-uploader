@@ -1,0 +1,35 @@
+<main class="folder detail">
+  <header>
+    <h2><%= folder.name %></h2>
+    <div class="button-container">
+      <button type="button" command="show-modal" commandfor="update-folder">폴더 이름 변경</button>
+      <form action="/storage/folder/<%= folder.id %>/delete" method="post">
+        <button type="submit" onclick="return confirm('정말 삭제할까요? 보관된 파일도 같이 삭제됩니다.')">삭제</button>
+      </form>
+    </div>
+  </header>
+  <div class="info">
+    <p>생성 날짜: <%= folder.createdAt %></p>
+    <button type="button" command="show-modal" commandfor="upload-file">파일 추가</button>
+    <section class="files">
+      <h3>파일</h3>
+      <ul>
+        <% folder.files.forEach(file => { %>
+        <li>
+          <span><%= file.originalName %></span>
+          <div class="button-container">
+            <button type="button" command="show-modal" commandfor="file-detail-<%= file.id %>">상세정보</button>
+            <form action="/storage/folder/<%= folder.id %>/file/<%= file.id %>/delete" method="post">
+              <button onclick="return confirm('정말 삭제할까요?')">삭제</button>
+            </form>
+          </div>
+        </li>
+        <%- include("../dialogs/file-detail", {file}) %>
+        <% }) %>
+      </ul>
+    </section>
+  </div>
+  <%- include("../partials/folders") %>
+</main>
+<%- include("../dialogs/update-folder") %>
+<%- include("../dialogs/upload-files") %>

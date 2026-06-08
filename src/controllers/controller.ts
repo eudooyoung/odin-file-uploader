@@ -5,7 +5,5 @@ export const homeGet: RequestHandler = (req, res) => {
 };
 
 export const dashboardGet: RequestHandler = (req, res) => {
-  res.render("index", {
-    username: req.user!.username,
-  });
+  res.render("index");
 };

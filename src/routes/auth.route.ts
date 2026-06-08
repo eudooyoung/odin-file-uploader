@@ -5,21 +5,19 @@ import {
   logoutGet,
   signupGet,
   signupPost,
-} from "./auth.controller.js";
+} from "../controllers/auth.controller.js";
 import requireGuest from "@/middlewares/requireGuest.js";
 import passport from "@/config/passport.config.js";
 
 const authRouter = Router();
 
-authRouter.use(["/signup", "/login"], requireGuest);
-
 authRouter
-  .use("/signup", pageProvider("signup"))
+  .use("/signup", requireGuest, pageProvider("signup"))
   .get("/signup", signupGet)
   .post("/signup", signupPost);
 
 authRouter
-  .use("/login", pageProvider("login"))
+  .use("/login", requireGuest, pageProvider("login"))
   .get("/login", loginGet)
   .post(
     "/login",

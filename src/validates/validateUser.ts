@@ -1,54 +1,42 @@
 import { body } from "express-validator";
 import bcrypt from "bcryptjs";
-import {
-  duplicateErr,
-  emailErr,
-  emptyErr,
-  passwordConfirmNotMatchErr,
-  passwordMaxLengthErr,
-  passwordMinLengthErr,
-  passwordNumericErr,
-  passwordSpecialCharacterErr,
-  passwordUppercaseErr,
-  usernameMaxLengthErr,
-  usernameMinLengthErr,
-} from "./errorMessages.js";
-import { existUserByUsername } from "@/features/user/user.repository.js";
-import type { SignupBody } from "@/features/auth/auth.types.js";
+import v from "./validateErrorMessages.js";
+import { existUserByUsername } from "@/repositories/auth.repository.js";
+import type { SignupBody } from "@/types/auth.types.js";
 
 export const validateUser = [
   body("username")
     .trim()
     .notEmpty()
     .bail()
-    .withMessage(`username ${emptyErr}`)
+    .withMessage(`username ${v.emptyErr}`)
     .isEmail()
-    .withMessage(`username ${emailErr}`)
+    .withMessage(`username ${v.emailErr}`)
     .isLength({ min: 6 })
-    .withMessage(`username ${usernameMinLengthErr}`)
+    .withMessage(`username ${v.usernameMinLengthErr}`)
     .isLength({ max: 30 })
-    .withMessage(`username ${usernameMaxLengthErr}`)
+    .withMessage(`username ${v.usernameMaxLengthErr}`)
     .custom(async (username: string) => {
       const isDuplicate = await existUserByUsername(username);
       if (isDuplicate) {
-        throw new Error(`username ${duplicateErr}`);
+        throw new Error(`username ${v.duplicateErr}`);
       }
     }),
   body("password")
     .trim()
     .notEmpty()
     .bail()
-    .withMessage(`password ${emptyErr}`)
+    .withMessage(`password ${v.emptyErr}`)
     .matches(/[A-Z]/)
-    .withMessage(`password ${passwordUppercaseErr}`)
+    .withMessage(`password ${v.passwordUppercaseErr}`)
     .matches(/[0-9]/)
-    .withMessage(`password ${passwordNumericErr}`)
+    .withMessage(`password ${v.passwordNumericErr}`)
     .matches(/[!@#$%^&*]/)
-    .withMessage(`password ${passwordSpecialCharacterErr}`)
+    .withMessage(`password ${v.passwordSpecialCharacterErr}`)
     .isLength({ min: 8 })
-    .withMessage(`password ${passwordMinLengthErr}`)
+    .withMessage(`password ${v.passwordMinLengthErr}`)
     .isLength({ max: 72 })
-    .withMessage(`password ${passwordMaxLengthErr}`)
+    .withMessage(`password ${v.passwordMaxLengthErr}`)
     .customSanitizer(
       async (password: string) => await bcrypt.hash(password, 10),
     ),
@@ -60,7 +48,7 @@ export const validateUser = [
     .custom(async (passwordConfirm: string, { req }) => {
       const { password } = req.body as SignupBody;
       if (await bcrypt.compare(password, passwordConfirm)) {
-        throw new Error(passwordConfirmNotMatchErr);
+        throw new Error(v.passwordConfirmNotMatchErr);
       }
     }),
 ];

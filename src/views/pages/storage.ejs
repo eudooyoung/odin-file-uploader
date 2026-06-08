@@ -1,0 +1,17 @@
+<main>
+  <h2>파일 저장소</h2>
+  <button type="button" command="show-modal" commandfor="create-folder">새 폴더 만들기</button>
+  <section>
+    <h3>폴더 목록</h3>
+    <ul class="folder-preview">
+      <% folders.forEach(folder => { %>
+      <li>
+        <a href="/storage/folder/<%= folder.id %>">
+          <span><%= folder.name %></span>
+        </a>
+      </li>
+      <% }) %>
+    </ul>
+  </section>
+</main>
+<%- include("../dialogs/create-folder") %>
