@@ -3,6 +3,8 @@ import { matchedData, validationResult } from "express-validator";
 import type { CreateUserInput, SignupBody } from "../types/auth.types.js";
 import { validateUser } from "@/validates/validateUser.js";
 import { createUser } from "../repositories/auth.repository.js";
+import cloudinary from "@/config/cloudinary.config.js";
+import CustomError from "@/errors/customError.js";
 
 export const signupGet: RequestHandler = (req, res) => {
   res.render("index");
@@ -17,7 +19,8 @@ const signupPostHandler: RequestHandler = async (req, res) => {
     });
   }
   const { username, password }: CreateUserInput = matchedData(req);
-  await createUser({ username, password });
+  const createdUserId = await createUser({ username, password });
+  await cloudinary.api.create_folder(`odin_file_uploader/${createdUserId}`);
   res.redirect("/auth/login");
 };
 

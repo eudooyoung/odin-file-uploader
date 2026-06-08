@@ -23,14 +23,18 @@ export const createFolderWithUserId = async (
   folderName: string,
   userId: number,
 ) => {
-  await prisma.folder.create({
+  const { id } = await prisma.folder.create({
     data: {
       name: folderName,
       user: {
         connect: { id: userId },
       },
     },
+    select: {
+      id: true,
+    },
   });
+  return id;
 };
 
 export const findFolderByIdAndUserId = async (
