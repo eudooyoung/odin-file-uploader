@@ -103,14 +103,14 @@ export const deleteFileByIdAndFolderId = async (
   fileId: number,
   folderId: number,
 ) => {
-  const deleted = await prisma.file.delete({
+  const { fileName } = await prisma.file.delete({
     where: {
       id: fileId,
       folderId,
     },
     select: {
-      path: true,
+      fileName: true,
     },
   });
-  return deleted.path;
+  return fileName;
 };

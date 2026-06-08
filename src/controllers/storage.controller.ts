@@ -117,7 +117,7 @@ const uploadFilesPostHandler: RequestHandler = async (req, res) => {
       );
       return {
         originalName: file.originalname,
-        fileName: uploadResult.asset_id,
+        fileName: uploadResult.public_id,
         size: uploadResult.bytes,
         path: uploadResult.secure_url,
         folderId,
@@ -133,7 +133,7 @@ export const uploadFilesPost = [upload.array("files"), uploadFilesPostHandler];
 export const deleteFilePost: RequestHandler = async (req, res) => {
   const fileId = Number(req.params.fileId);
   const folderId = Number(req.params.folderId);
-  const deletedPath = await deleteFileByIdAndFolderId(fileId, folderId);
-  unlinkSync(deletedPath);
+  const publicId = await deleteFileByIdAndFolderId(fileId, folderId);
+  await cloudinary.uploader.destroy(publicId);
   res.redirect(`/storage/folder/${folderId}`);
 };
