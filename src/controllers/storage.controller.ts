@@ -130,11 +130,6 @@ const uploadFilesPostHandler: RequestHandler = async (req, res) => {
 
 export const uploadFilesPost = [upload.array("files"), uploadFilesPostHandler];
 
-export const downloadFilePost: RequestHandler = (req, res) => {
-  const { path, name } = req.query as { path: string; name: string };
-  res.download(path, name);
-};
-
 export const deleteFilePost: RequestHandler = async (req, res) => {
   const fileId = Number(req.params.fileId);
   const folderId = Number(req.params.folderId);

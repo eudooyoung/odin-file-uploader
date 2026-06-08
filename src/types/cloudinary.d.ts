@@ -3,5 +3,3 @@ declare module "cloudinary" {
     asset_id: string;
   }
 }
-
-export {};

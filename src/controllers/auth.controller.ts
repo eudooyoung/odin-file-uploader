@@ -4,7 +4,6 @@ import type { CreateUserInput, SignupBody } from "../types/auth.types.js";
 import { validateUser } from "@/validates/validateUser.js";
 import { createUser } from "../repositories/auth.repository.js";
 import cloudinary from "@/config/cloudinary.config.js";
-import CustomError from "@/errors/customError.js";
 
 export const signupGet: RequestHandler = (req, res) => {
   res.render("index");
