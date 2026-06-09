@@ -9,7 +9,7 @@ const store = new PrismaSessionStore(prisma, {
   dbRecordIdFunction: (sessionId) => sessionId,
 });
 
-const sessionMiddleware = session({
+session({
   secret: config.sessionSecret,
   resave: false,
   saveUninitialized: false,
@@ -19,4 +19,4 @@ const sessionMiddleware = session({
   },
 });
 
-export default sessionMiddleware;
+export default session;
