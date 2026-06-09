@@ -25,10 +25,14 @@ export const existUserByUsername = async (username: string) => {
 };
 
 export const createUser = async ({ username, password }: CreateUserInput) => {
-  await prisma.user.create({
+  const { id } = await prisma.user.create({
     data: {
       username: username,
       password: password,
     },
+    select: {
+      id: true,
+    },
   });
+  return id;
 };

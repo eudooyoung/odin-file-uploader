@@ -14,7 +14,9 @@ import {
 import { matchedData, validationResult } from "express-validator";
 import type { RequestHandler } from "express";
 import { upload } from "@/config/multer.config.js";
-import { unlinkSync } from "node:fs";
+import cloudinary from "@/config/cloudinary.config.js";
+import CustomError from "@/errors/customError.js";
+import type { UploadApiResponse } from "cloudinary";
 
 export const storageGet: RequestHandler = (req, res) => {
   res.render("index");
@@ -29,7 +31,13 @@ const createFolderPostHandler: RequestHandler = async (req, res) => {
     });
   }
   const body: FolderRequestBody = matchedData(req);
-  await createFolderWithUserId(body.folderName, req.user!.id);
+  const createdFolderId = await createFolderWithUserId(
+    body.folderName,
+    req.user!.id,
+  );
+  await cloudinary.api.create_folder(
+    `odin_file_uploader/${req.user!.id}/${createdFolderId}`,
+  );
   res.redirect("/storage");
 };
 
@@ -74,37 +82,64 @@ export const updateFolderPost = [
 
 export const deleteFolderPost: RequestHandler = async (req, res) => {
   const folderId = Number(req.params.folderId);
-  await deleteFolderByIdAndUserId(folderId, req.user!.id);
+  await Promise.all([
+    deleteFolderByIdAndUserId(folderId, req.user!.id),
+    cloudinary.api.delete_folder(
+      `odin_file_uploader/${req.user!.id}/${folderId}`,
+    ),
+  ]);
   res.redirect("/storage");
 };
 
 const uploadFilesPostHandler: RequestHandler = async (req, res) => {
   const folderId = Number(req.params.folderId);
   const filesRaw = req.files as Express.Multer.File[];
-  const filesInput = filesRaw.map((file) => {
-    return {
-      originalName: file.originalname,
-      fileName: file.filename,
-      path: file.path,
-      size: file.size,
-      folderId,
-    };
-  });
+  const filesInput = await Promise.all(
+    filesRaw.map(async (file) => {
+      const uploadResult: UploadApiResponse = await new Promise(
+        (resolve, reject) => {
+          cloudinary.uploader
+            .upload_stream(
+              {
+                asset_folder: `odin_file_uploader/${req.user!.id}/${folderId}`,
+                unique_filename: true,
+                resource_type: "image",
+                allowed_formats: ["jpg", "png", "pdf"],
+              },
+              (error, uploadResult) => {
+                if (error) {
+                  return reject(
+                    new CustomError({
+                      message: error.message,
+                      statusCode: 400,
+                    }),
+                  );
+                }
+                return resolve(uploadResult!);
+              },
+            )
+            .end(file.buffer);
+        },
+      );
+      return {
+        originalName: file.originalname,
+        fileName: uploadResult.public_id,
+        size: uploadResult.bytes,
+        path: uploadResult.secure_url,
+        folderId,
+      };
+    }),
+  );
   await createFilesWithFolderId(filesInput);
   res.redirect(`/storage/folder/${folderId}`);
 };
 
 export const uploadFilesPost = [upload.array("files"), uploadFilesPostHandler];
 
-export const downloadFilePost: RequestHandler = (req, res) => {
-  const { path, name } = req.query as { path: string; name: string };
-  res.download(path, name);
-};
-
 export const deleteFilePost: RequestHandler = async (req, res) => {
   const fileId = Number(req.params.fileId);
   const folderId = Number(req.params.folderId);
-  const deletedPath = await deleteFileByIdAndFolderId(fileId, folderId);
-  unlinkSync(deletedPath);
+  const publicId = await deleteFileByIdAndFolderId(fileId, folderId);
+  await cloudinary.uploader.destroy(publicId);
   res.redirect(`/storage/folder/${folderId}`);
 };

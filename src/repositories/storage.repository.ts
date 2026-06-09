@@ -23,14 +23,18 @@ export const createFolderWithUserId = async (
   folderName: string,
   userId: number,
 ) => {
-  await prisma.folder.create({
+  const { id } = await prisma.folder.create({
     data: {
       name: folderName,
       user: {
         connect: { id: userId },
       },
     },
+    select: {
+      id: true,
+    },
   });
+  return id;
 };
 
 export const findFolderByIdAndUserId = async (
@@ -99,14 +103,14 @@ export const deleteFileByIdAndFolderId = async (
   fileId: number,
   folderId: number,
 ) => {
-  const deleted = await prisma.file.delete({
+  const { fileName } = await prisma.file.delete({
     where: {
       id: fileId,
       folderId,
     },
     select: {
-      path: true,
+      fileName: true,
     },
   });
-  return deleted.path;
+  return fileName;
 };
