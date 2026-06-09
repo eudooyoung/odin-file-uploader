@@ -14,7 +14,6 @@ import {
 import { matchedData, validationResult } from "express-validator";
 import type { RequestHandler } from "express";
 import { upload } from "@/config/multer.config.js";
-import { unlinkSync } from "node:fs";
 import cloudinary from "@/config/cloudinary.config.js";
 import CustomError from "@/errors/customError.js";
 import type { UploadApiResponse } from "cloudinary";
@@ -83,7 +82,12 @@ export const updateFolderPost = [
 
 export const deleteFolderPost: RequestHandler = async (req, res) => {
   const folderId = Number(req.params.folderId);
-  await deleteFolderByIdAndUserId(folderId, req.user!.id);
+  await Promise.all([
+    deleteFolderByIdAndUserId(folderId, req.user!.id),
+    cloudinary.api.delete_folder(
+      `odin_file_uploader/${req.user!.id}/${folderId}`,
+    ),
+  ]);
   res.redirect("/storage");
 };
 
@@ -99,6 +103,8 @@ const uploadFilesPostHandler: RequestHandler = async (req, res) => {
               {
                 asset_folder: `odin_file_uploader/${req.user!.id}/${folderId}`,
                 unique_filename: true,
+                resource_type: "image",
+                allowed_formats: ["jpg", "png", "pdf"],
               },
               (error, uploadResult) => {
                 if (error) {
@@ -129,16 +135,6 @@ const uploadFilesPostHandler: RequestHandler = async (req, res) => {
 };
 
 export const uploadFilesPost = [upload.array("files"), uploadFilesPostHandler];
-
-export const downloadFileGet: RequestHandler = (req, res) => {
-  const { key, name } = req.params as { key: string; name: string };
-  const url = cloudinary.url(key, {
-    flags: `attachment:${name}`,
-    resource_type: "raw",
-  });
-
-  res.redirect(url);
-};
 
 export const deleteFilePost: RequestHandler = async (req, res) => {
   const fileId = Number(req.params.fileId);

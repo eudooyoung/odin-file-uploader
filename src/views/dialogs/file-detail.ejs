@@ -2,7 +2,7 @@
   <h4>이름: <%= file.originalName %></h4>
   <p>크기: <%= file.size %> bytes</p>
   <p>업로드 날짜: <%= file.createdAt %></p>
-  <form action="/storage/folder/<%= folder.id %>/file/<%= file.id %>/download/?key=<%= file.fileName %>&name=<%= file.originalName %>" method="get">
+  <a href="<%= file.path %>" target="_blank" rel="noopener">
     <button>다운로드</button>
-  </form>
+  </a>
 </dialog>
