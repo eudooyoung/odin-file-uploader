@@ -17,6 +17,7 @@ import { upload } from "@/config/multer.config.js";
 import cloudinary from "@/config/cloudinary.config.js";
 import CustomError from "@/errors/customError.js";
 import type { UploadApiResponse } from "cloudinary";
+import config from "@/config/env.config.js";
 
 export const storageGet: RequestHandler = (req, res) => {
   res.render("index");
@@ -36,7 +37,7 @@ const createFolderPostHandler: RequestHandler = async (req, res) => {
     req.user!.id,
   );
   await cloudinary.api.create_folder(
-    `odin_file_uploader/${req.user!.id}/${createdFolderId}`,
+    `${config.cloudRoot}/${req.user!.id}/${createdFolderId}`,
   );
   res.redirect("/storage");
 };
@@ -85,7 +86,7 @@ export const deleteFolderPost: RequestHandler = async (req, res) => {
   await Promise.all([
     deleteFolderByIdAndUserId(folderId, req.user!.id),
     cloudinary.api.delete_folder(
-      `odin_file_uploader/${req.user!.id}/${folderId}`,
+      `${config.cloudRoot}/${req.user!.id}/${folderId}`,
     ),
   ]);
   res.redirect("/storage");
@@ -101,10 +102,9 @@ const uploadFilesPostHandler: RequestHandler = async (req, res) => {
           cloudinary.uploader
             .upload_stream(
               {
-                asset_folder: `odin_file_uploader/${req.user!.id}/${folderId}`,
+                asset_folder: `${config.cloudRoot}/${req.user!.id}/${folderId}`,
                 unique_filename: true,
                 resource_type: "image",
-                allowed_formats: ["jpg", "png", "pdf"],
               },
               (error, uploadResult) => {
                 if (error) {

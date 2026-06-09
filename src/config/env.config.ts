@@ -4,7 +4,7 @@ dotenv.config();
 
 const nodeEnv = process.env.NODE_ENV || "development";
 dotenv.config({
-  path: [`.env.${nodeEnv}`, ".env.cloudinary"],
+  path: [`.env.${nodeEnv}`],
   override: true,
 });
 
@@ -16,6 +16,7 @@ const config = {
   cloudName: process.env.CLOUD_NAME,
   cloudApiKey: process.env.CLOUD_API_KEY,
   cloudApiSecret: process.env.CLOUD_API_SECRET,
+  cloudRoot: process.env.CLOUD_ROOT,
 };
 
 export default config;

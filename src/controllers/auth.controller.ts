@@ -4,6 +4,7 @@ import type { CreateUserInput, SignupBody } from "../types/auth.types.js";
 import { validateUser } from "@/validates/validateUser.js";
 import { createUser } from "../repositories/auth.repository.js";
 import cloudinary from "@/config/cloudinary.config.js";
+import config from "@/config/env.config.js";
 
 export const signupGet: RequestHandler = (req, res) => {
   res.render("index");
@@ -19,7 +20,7 @@ const signupPostHandler: RequestHandler = async (req, res) => {
   }
   const { username, password }: CreateUserInput = matchedData(req);
   const createdUserId = await createUser({ username, password });
-  await cloudinary.api.create_folder(`odin_file_uploader/${createdUserId}`);
+  await cloudinary.api.create_folder(`${config.cloudRoot}/${createdUserId}`);
   res.redirect("/auth/login");
 };
 

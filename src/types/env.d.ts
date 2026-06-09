@@ -7,6 +7,7 @@ declare global {
       CLOUD_NAME: string;
       CLOUD_API_KEY: string;
       CLOUD_API_SECRET: string;
+      CLOUD_ROOT: string;
     }
   }
 }
