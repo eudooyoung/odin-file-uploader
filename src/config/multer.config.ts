@@ -22,8 +22,7 @@ export const upload = multer({
     files: 5,
   },
   fileFilter(req, file, callback) {
-    const allowedTypes = ["image/jpeg/", "impage/png", "application/pdf"];
-    if (!allowedTypes.includes(file.mimetype)) {
+    if (!file.mimetype.startsWith("image")) {
       callback(
         new CustomError({
           message: "Unsupported filetype",
