@@ -9,7 +9,7 @@ const store = new PrismaSessionStore(prisma, {
   dbRecordIdFunction: (sessionId) => sessionId,
 });
 
-session({
+export default session({
   secret: config.sessionSecret,
   resave: false,
   saveUninitialized: false,
@@ -18,5 +18,3 @@ session({
     maxAge: 1000 * 60 * 60 * 24,
   },
 });
-
-export default session;
